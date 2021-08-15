@@ -1,5 +1,6 @@
 ﻿using ConsoleUI.Controls;
 using System;
+using System.Collections.Generic;
 
 namespace ConsoleUI
 {
@@ -9,14 +10,29 @@ namespace ConsoleUI
         {
             Console.WriteLine("Hello World!");
 
-            CheckboxOption[] options = {
-                new CheckboxOption("Option 1", true),
-                new CheckboxOption("Option 2"),
-                new CheckboxOption("Option 3")
+            List<ISelectable> options = new List<ISelectable>
+            {
+                new Option("Option 1", true),
+                new Option("Option 2"),
+                new Option("Option 3")
             };
 
             var checkbox = new Checkbox(options);
-            checkbox.Show();
+            var selection = checkbox.Show();
+
+            Console.Write("Selected options: ");
+            selection.ForEach((result) => Console.Write($"{result.Text} "));
+        }
+    }
+
+    public class Option : ISelectable
+    {
+        public string Text { get; }
+        public bool Selected { get; set; }
+        public Option(string text, bool selected = false)
+        {
+            Text = text;
+            Selected = selected;
         }
     }
 }

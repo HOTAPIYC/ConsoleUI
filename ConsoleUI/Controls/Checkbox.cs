@@ -1,24 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ConsoleUI.Controls
 {
     public class Checkbox
     {
-        private CheckboxOption[] _options;
+        private List<ISelectable> _options;
 
-        public Checkbox(CheckboxOption[] options)
+        public Checkbox(List<ISelectable> options)
         {
             _options = options;
         }
 
-        public CheckboxOption[] Show()
+        public List<ISelectable> Show()
         {
             var selectedIndex = 0;
             var confirm = false;
 
             while (true)
             {
-                for (var i = 0; i < _options.Length; i++)
+                for (var i = 0; i < _options.Count; i++)
                 {
                     if (i == selectedIndex && !confirm)
                     {
@@ -36,7 +37,7 @@ namespace ConsoleUI.Controls
 
                 var key = Console.ReadKey().Key;
 
-                if (key == ConsoleKey.DownArrow && selectedIndex < _options.Length)
+                if (key == ConsoleKey.DownArrow && selectedIndex < _options.Count)
                 {
                     selectedIndex++;
                 }
@@ -53,10 +54,10 @@ namespace ConsoleUI.Controls
                     confirm = true;
                 }
 
-                Console.SetCursorPosition(0, Console.CursorTop - _options.Length);
+                Console.SetCursorPosition(0, Console.CursorTop - _options.Count);
             }
 
-            string GetSelectorField(CheckboxOption option)
+            string GetSelectorField(ISelectable option)
             {
                 if (option.Selected)
                 {
@@ -68,7 +69,7 @@ namespace ConsoleUI.Controls
                 }
             }
 
-            return _options;
+            return _options.FindAll(option => option.Selected == true);
         }
     }
 }
