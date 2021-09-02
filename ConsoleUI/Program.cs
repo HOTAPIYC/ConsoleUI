@@ -21,13 +21,27 @@ namespace ConsoleUI
             var selection = checkbox.Show();
 
             Console.WriteLine("Selected options: ");
-            selection.ForEach((result) => Console.WriteLine($"{result.Text} "));
+            selection.ForEach((result) => Console.WriteLine(result.Text));
 
             var input = new ValidatedInput("Please enter a string: ");
             input.SetValidation((input) => !string.IsNullOrEmpty(input), "Input is empty string!");
             var result = input.Promt();
 
             Console.WriteLine($"Entered input: {result}");
+
+            List<ISelectable> items = new List<ISelectable>
+            {
+                new Option("Item 1", true),
+                new Option("Item 2"),
+                new Option("Item 3"),
+                new Option("Item 4"),
+                new Option("Item 5")
+            };
+
+            var selectionList = new SelectionList(items);
+            var item = selectionList.Show();
+
+            Console.WriteLine($"Selected item: {item.Text}");
         }
     }
 
